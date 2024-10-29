@@ -21,7 +21,7 @@ productRouter
   .route("/")
   .post(
     protectedRoutes,
-    allowedTo("admin", "user"),
+    allowedTo("admin", "seller"),
     uploadMultipleFiles(arrFields, "products"),
     validate(addProductValidation),
     product.addProduct
@@ -32,13 +32,13 @@ productRouter
   .route("/:id")
   .put(
     protectedRoutes,
-    allowedTo("admin"),
+    allowedTo("admin", "seller"),
     validate(updateProductValidation),
     product.updateProduct
   )
   .delete(
     protectedRoutes,
-    allowedTo("admin"),
+    allowedTo("admin", "seller"),
     validate(deleteProductValidation),
     product.deleteProduct
   )

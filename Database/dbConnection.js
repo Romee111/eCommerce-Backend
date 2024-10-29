@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 export function dbConnection() {
   mongoose
-    .connect(`mongodb+srv://ecommerce:ecommerce123@cluster0.b649qmo.mongodb.net/Ecommerce-App`)
+    .connect(`mongodb+srv://toygamer201:Clustor201@cluster0.zhxde.mongodb.net/e-commerceApp`)
+  
     .then(() => {
       console.log("DB Connected Succesfully");
     })

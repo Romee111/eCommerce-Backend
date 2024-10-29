@@ -21,7 +21,22 @@ const productSchema = new Schema(
       minlength: [10, "Description should be more than or equal to 10"],
       required: true,
       trim: true,
+     
     },
+    color: [
+      {
+        type: String,
+        trim: true,
+        required: true,
+      }      
+    ],
+    size: [
+      {
+        type: String,
+        trim: true,
+        required: true,
+      }
+    ],
     price: {
       type: Number,
       default: 0,

@@ -7,8 +7,8 @@ import { ApiFeatures } from "../../utils/ApiFeatures.js";
 
 const addProduct = catchAsyncError(async (req, res, next) => {
   // console.log(req.files);
-  req.body.imgCover = req.files.imgCover[0].filename;
-  req.body.images = req.files.images.map((ele) => ele.filename);
+  // req.body.imgCover = req.files.imgCover[0].filename;
+  // req.body.images = req.files.images.map((ele) => ele.filename);
 
   // console.log(req.body.imgCover, req.body.images);
   req.body.slug = slugify(req.body.title);
