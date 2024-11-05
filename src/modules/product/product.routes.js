@@ -21,11 +21,14 @@ productRouter
   .route("/")
   .post(
     protectedRoutes,
-    allowedTo("admin", "seller"),
+    allowedTo("admin", "seller", "user"),
     uploadMultipleFiles(arrFields, "products"),
     validate(addProductValidation),
-    product.addProduct
+    product.
+    addProduct
   )
+  productRouter
+  .route("/getAllProducts")
   .get(product.getAllProducts);
 
 productRouter

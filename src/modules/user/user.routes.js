@@ -13,6 +13,9 @@ const userRouter = express.Router();
 userRouter
   .route("/")
   .post(validate(addUserValidation), User.addUser)
+
+  userRouter
+  .route("/getAllUsers")
   .get(User.getAllUsers);
 
 userRouter

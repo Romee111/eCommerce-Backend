@@ -23,6 +23,8 @@ categoryRouter
     validate(addCategoryValidation),
     category.addCategory
   )
+  categoryRouter
+  .route("/getAllCategories")
   .get(category.getAllCategories);
 
 categoryRouter

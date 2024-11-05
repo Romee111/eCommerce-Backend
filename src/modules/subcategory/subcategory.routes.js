@@ -18,6 +18,8 @@ subCategoryRouter
     validate(addSubCategoryValidation),
     subCategory.addSubCategory
   )
+  subCategoryRouter
+  .route("/getAllSubCategories")
   .get(subCategory.getAllSubCategories);
 
 subCategoryRouter
