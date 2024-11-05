@@ -14,7 +14,7 @@ subCategoryRouter
   .route("/")
   .post(
     protectedRoutes,
-    allowedTo("admin","user","seller"),
+    allowedTo("admin","seller"),
     validate(addSubCategoryValidation),
     subCategory.addSubCategory
   )
