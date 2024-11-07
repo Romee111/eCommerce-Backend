@@ -1,8 +1,20 @@
 export const globalErrorHandling = (err, req, res, next) => {
-  //Must be last middleware
-  let error = err.message;
-  let code = err.statuscode || 500;
-  process.env.MODE == "dev"
-    ? res.status(code).json({ error, stack: err.stack })
-    : res.status(code).json({ error });
+  // To prevent multiple responses
+  if (res.headersSent) {
+    return next(err); // If headers are already sent, pass the error to the default error handler
+  }
+  
+  const errorMessage = err.message || "Internal Server Error";
+  const statusCode = err.statusCode || 500;
+
+  if (process.env.MODE === "dev") {
+    res.status(statusCode).json({
+      error: errorMessage,
+      stack: err.stack,
+    });
+  } else {
+    res.status(statusCode).json({
+      error: errorMessage,
+    });
+  }
 };

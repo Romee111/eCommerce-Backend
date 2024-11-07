@@ -15,7 +15,7 @@ const categoryRouter = express.Router();
 categoryRouter.use("/:categoryId/subcategories", subCategoryRouter);
 
 categoryRouter
-  .route("/")
+  .route("/addCategory")
   .post(
     protectedRoutes,
     allowedTo("admin","seller"),
@@ -28,13 +28,15 @@ categoryRouter
   .get(category.getAllCategories);
 
 categoryRouter
-  .route("/:id")
+  .route("/updateCategory/:id")
   .put(
     protectedRoutes,
     allowedTo("admin","seller"),
     validate(updateCategoryValidation),
     category.updateCategory
   )
+  categoryRouter
+  .route("/deleteCategory/:id")
   .delete(
     protectedRoutes,
     allowedTo("admin","seller"),

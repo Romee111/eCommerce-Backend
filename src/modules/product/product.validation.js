@@ -5,6 +5,8 @@ const addProductValidation = Joi.object({
   imgCover: Joi.string(),
   images: Joi.array().items(Joi.string()),
   descripton: Joi.string().max(100).min(10).required().trim(),
+  color: Joi.array().required(),
+  size: Joi.array().required(),
   price: Joi.number().min(0).required().default(0),
   priceAfterDiscount: Joi.number().min(0).default(0),
   quantity: Joi.number().min(0).default(0),

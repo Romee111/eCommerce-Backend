@@ -1,5 +1,6 @@
 import express from "express";
 import * as User from "./user.controller.js";
+import { protectedRoutes, allowedTo } from "../auth/auth.controller.js";
 import { validate } from "../../middlewares/validate.js";
 import {
   addUserValidation,
@@ -11,17 +12,30 @@ import {
 const userRouter = express.Router();
 
 userRouter
-  .route("/")
-  .post(validate(addUserValidation), User.addUser)
+  .route("/addUser")
+  .post(
+    protectedRoutes,
+    allowedTo("admin"),
+    validate(addUserValidation), User.addUser)
 
   userRouter
   .route("/getAllUsers")
   .get(User.getAllUsers);
+ userRouter
+ .route("/deleteUser/:id")
+ .delete(
+  protectedRoutes,
+  allowedTo("admin"),
+  validate(deleteUserValidation),User.deleteUser);
 
 userRouter
-  .route("/:id")
-  .put(validate(updateUserValidation), User.updateUser)
-  .delete(validate(deleteUserValidation), User.deleteUser)
+  .route("/updateUser/:id")
+  .put(
+    protectedRoutes,
+    allowedTo("admin"),
+    validate(updateUserValidation), User.updateUser)
+ userRouter
+  .route("/changeUserPassword/:id")
   .patch(validate(changeUserPasswordValidation), User.changeUserPassword);
 
 export default userRouter;

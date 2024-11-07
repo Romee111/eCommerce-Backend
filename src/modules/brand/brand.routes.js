@@ -11,23 +11,27 @@ import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
 const brandRouter = express.Router();
 
 brandRouter
-  .route("/")
+  .route("/addBrand")
   .post(
     protectedRoutes,
-    allowedTo("admin","user"),
+    allowedTo("admin","seller"),
     validate(addBrandValidation),
     brand.addBrand
   )
+  brandRouter
+  .route("/getAllBrands")
   .get(brand.getAllBrands);
 
 brandRouter
-  .route("/:id")
+  .route("/updateBrand/:id")
   .put(
     protectedRoutes,
     allowedTo("admin"),
     validate(updateBrandValidation),
     brand.updateBrand
   )
+  brandRouter
+  .route("/deleteBrand/:id")
   .delete(
     protectedRoutes,
     allowedTo("admin"),

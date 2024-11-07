@@ -18,10 +18,10 @@ let arrFields = [
 ];
 
 productRouter
-  .route("/")
+  .route("/addProduct")
   .post(
     protectedRoutes,
-    allowedTo("admin", "seller", "user"),
+    allowedTo( "seller","admin"),
     uploadMultipleFiles(arrFields, "products"),
     validate(addProductValidation),
     product.
@@ -32,13 +32,19 @@ productRouter
   .get(product.getAllProducts);
 
 productRouter
-  .route("/:id")
+  .route("/getProducts")
+  .get(product.getProducts);
+
+productRouter
+  .route("/updateProduct/:id")
   .put(
     protectedRoutes,
     allowedTo("admin", "seller"),
     validate(updateProductValidation),
     product.updateProduct
   )
+  productRouter
+  .route("/deleteProduct/:id")
   .delete(
     protectedRoutes,
     allowedTo("admin", "seller"),

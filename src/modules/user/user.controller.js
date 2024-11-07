@@ -42,6 +42,21 @@ const addUser = catchAsyncError(async (req, res, next) => {
 });
 
 
+// const getAllUsers = catchAsyncError(async (req, res, next) => {
+//   let apiFeature = new ApiFeatures(userModel.find(), req.query)
+//     .pagination()
+//     .fields()
+//     .filteration()
+//     .search()
+//     .sort();
+//   const PAGE_NUMBER = apiFeature.queryString.page * 1 || 1;
+//   const getAllUsers = await apiFeature.mongooseQuery;
+
+//   res.status(200).json({ page: PAGE_NUMBER, message: "success", data:getAllUsers
+
+//    });
+// });
+
 const getAllUsers = catchAsyncError(async (req, res, next) => {
   let apiFeature = new ApiFeatures(userModel.find(), req.query)
     .pagination()
@@ -49,10 +64,27 @@ const getAllUsers = catchAsyncError(async (req, res, next) => {
     .filteration()
     .search()
     .sort();
+
   const PAGE_NUMBER = apiFeature.queryString.page * 1 || 1;
   const getAllUsers = await apiFeature.mongooseQuery;
 
-  res.status(201).json({ page: PAGE_NUMBER, message: "success", getAllUsers });
+  // Log the result to check if data is being fetched
+  console.log(getAllUsers);  // Check if data is returned
+
+  // If no users are found, return a 404 or empty result
+  if (getAllUsers.length === 0) {
+    return res.status(404).json({
+      page: PAGE_NUMBER,
+      message: "No users found",
+      data: [],
+    });
+  }
+
+  res.status(200).json({
+    page: PAGE_NUMBER,
+    message: "success",
+    data: getAllUsers,  // Pass the result data in the 'data' field
+  });
 });
 
 const updateUser = catchAsyncError(async (req, res, next) => {
