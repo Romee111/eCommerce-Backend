@@ -146,7 +146,7 @@ const getAllOrders = catchAsyncError(async (req, res, next) => {
 
 // Export functions
 export {
-  createCashOrder,
+  createKlarnaOrder,
   getSpecificOrder,
   getAllOrders,
   createCheckOutSession,

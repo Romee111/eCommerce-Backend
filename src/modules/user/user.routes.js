@@ -15,7 +15,7 @@ userRouter
   .route("/addUser")
   .post(
     protectedRoutes,
-    allowedTo("admin"),
+    allowedTo("admin","seller","user"),
     validate(addUserValidation), User.addUser)
 
   userRouter
@@ -25,14 +25,14 @@ userRouter
  .route("/deleteUser/:id")
  .delete(
   protectedRoutes,
-  allowedTo("admin"),
+  allowedTo("admin","user",),
   validate(deleteUserValidation),User.deleteUser);
 
 userRouter
   .route("/updateUser/:id")
   .put(
     protectedRoutes,
-    allowedTo("admin"),
+    allowedTo("admin","user"),
     validate(updateUserValidation), User.updateUser)
  userRouter
   .route("/changeUserPassword/:id")

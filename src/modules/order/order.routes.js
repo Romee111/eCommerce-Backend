@@ -8,11 +8,11 @@ const orderRouter = express.Router();
 
 
 orderRouter
-  .route("/:id")
+  .route("/createKlarnaOrder")
   .post(
     protectedRoutes,
     allowedTo("user"),
-    order.createCashOrder
+    order.createKlarnaOrder
   )
   orderRouter
   .route("/")
