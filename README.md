@@ -15,6 +15,7 @@ Our e-commerce backend is a Node.js application that leverages Express.js for cr
 - **Order Processing:** Robust order management system that allows customers to place orders, and admins to process them through a streamlined workflow.
 - **Shopping Cart:** Persistent shopping cart functionality, complete with add-to-cart, update quantities, and remove items features.
 - **Payments Integration:** Integration with payment gateways like Stripe for handling transactions and supporting various payment methods.
+- -**Klarna Installment Plan:** ease for customers a UK based company for tier installment products puchasing.
 - **Discounts and Coupons:** Dynamic coupon creation and application system to offer discounts and promotions to customers.
 - **Reviews and Ratings:** Users can leave reviews and rate products, fostering community engagement and providing valuable feedback.
 - **Wishlist:** Customers can create and manage wishlists, bookmarking their favorite items for future purchase.
