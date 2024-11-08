@@ -18,7 +18,7 @@ categoryRouter
   .route("/addCategory")
   .post(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin",),
     uploadSingleFile("Image", "category"),
     validate(addCategoryValidation),
     category.addCategory
@@ -31,7 +31,7 @@ categoryRouter
   .route("/updateCategory/:id")
   .put(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin",),
     validate(updateCategoryValidation),
     category.updateCategory
   )
@@ -39,7 +39,7 @@ categoryRouter
   .route("/deleteCategory/:id")
   .delete(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin"),
     validate(deleteCategoryValidation),
     category.deleteCategory
   );
