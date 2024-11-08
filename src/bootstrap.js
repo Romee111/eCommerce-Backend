@@ -15,7 +15,7 @@ import wishListRouter from "./modules/wishlist/wishlist.routes.js";
 import { AppError } from "./utils/AppError.js";
 
 export function bootstrap(app) {
-  app.use("/api/v1/categories", categoryRouter);
+  app.use("/restorex/categories", categoryRouter);
   app.use("/api/v1/subcategories", subCategoryRouter);
   app.use("/api/v1/brands", brandRouter);
   app.use("/api/v1/products", productRouter);
