@@ -33,7 +33,7 @@ userRouter
   .put(
     protectedRoutes,
     allowedTo("admin","user"),
-    validate(updateUserValidation), User.updateUser)
+    User.updateUser)
  userRouter
   .route("/changeUserPassword/:id")
   .patch(validate(changeUserPasswordValidation), User.changeUserPassword);
