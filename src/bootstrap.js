@@ -27,7 +27,7 @@ export function bootstrap(app) {
   app.use("/api/v1/coupons", couponRouter);
   app.use("/api/v1/carts", cartRouter);
   app.use("/api/v1/orders", orderRouter);
-  app.use("/api/v1/request", requestRouter); 
+  app.use("/restorex/request", requestRouter); 
 
   app.all("*", (req, res, next) => {
     next(new AppError("Endpoint was not found", 404));
