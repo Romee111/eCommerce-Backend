@@ -2,7 +2,7 @@ import { catchAsyncError } from "../../utils/catchAsyncError.js";
 import { AppError } from "../../utils/AppError.js";
 import { deleteOne } from "../../handlers/factor.js";
 import { ApiFeatures } from "../../utils/ApiFeatures.js";
-import { userModel } from "../../../Database/models/user.model.js";
+import  userModel  from "../../../Database/models/user.model.js";
 import bcrypt from "bcrypt";
 
 // const addUser = catchAsyncError(async (req, res, next) => {
@@ -23,6 +23,7 @@ const addUser = catchAsyncError(async (req, res, next) => {
       "bankName",
       "accountHolderName",
       "branchCode",
+      "documents",
     ];
     // Verify that all required fields for a seller are present
     for (const field of requiredSellerFields) {
@@ -87,15 +88,52 @@ const getAllUsers = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// const updateUser = catchAsyncError(async (req, res, next) => {
+//   const { id } = req.params;
+//   const updateUser = await userModel.findByIdAndUpdate(id, req.body, {
+//     new: true,
+//   });
+
+//   updateUser && res.status(201).json({ message: "success", updateUser });
+
+//   !updateUser && next(new AppError("User was not found", 404));
+// });
 const updateUser = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
+
+  // Check if the user being updated is a seller and validate the required fields
+  if (req.body.role === "seller") {
+    const requiredSellerFields = [
+      "businessName",
+      "businessAddress",
+      "businessType",
+      "taxIdNumber",
+      "bankAccountNumber",
+      "bankName",
+      "accountHolderName",
+      "branchCode",
+      "documents",
+    ];
+
+    for (const field of requiredSellerFields) {
+      if (!req.body.sellerInfo || !req.body.sellerInfo[field]) {
+        return res
+          .status(400)
+          .json({ message: `Missing required seller field: ${field}` });
+      }
+    }
+  }
+
+  // Update the user information
   const updateUser = await userModel.findByIdAndUpdate(id, req.body, {
     new: true,
   });
 
-  updateUser && res.status(201).json({ message: "success", updateUser });
-
-  !updateUser && next(new AppError("User was not found", 404));
+  if (updateUser) {
+    res.status(201).json({ message: "success", updateUser });
+  } else {
+    next(new AppError("User was not found", 404));
+  }
 });
 
 const changeUserPassword = catchAsyncError(async (req, res, next) => {

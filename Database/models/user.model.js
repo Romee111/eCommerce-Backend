@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
+import e from "express";
 
 const userSchema = new Schema(
   {
@@ -76,4 +77,6 @@ userSchema.pre("findOneAndUpdate", function () {
   }
 });
 
-export const userModel = model("user", userSchema);
+const userModel = model("user", userSchema);
+export default userModel;
+

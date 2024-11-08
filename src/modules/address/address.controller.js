@@ -1,6 +1,6 @@
 import { catchAsyncError } from "../../utils/catchAsyncError.js";
 import { AppError } from "../../utils/AppError.js";
-import { userModel } from "../../../Database/models/user.model.js";
+import userModel  from "../../../Database/models/user.model.js";
 
 const addAddress = catchAsyncError(async (req, res, next) => {
   const addAddress = await userModel.findByIdAndUpdate(

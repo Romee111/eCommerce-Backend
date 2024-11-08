@@ -8,6 +8,7 @@ import couponRouter from "./modules/coupon/coupon.routes.js";
 import orderRouter from "./modules/order/order.routes.js";
 import productRouter from "./modules/product/product.routes.js";
 import reviewRouter from "./modules/review/review.routes.js";
+import requestRouter from "./modules/request/request.routes.js";
 import subCategoryRouter from "./modules/subcategory/subcategory.routes.js";
 import userRouter from "./modules/user/user.routes.js";
 import wishListRouter from "./modules/wishlist/wishlist.routes.js";
@@ -26,6 +27,7 @@ export function bootstrap(app) {
   app.use("/api/v1/coupons", couponRouter);
   app.use("/api/v1/carts", cartRouter);
   app.use("/api/v1/orders", orderRouter);
+  app.use("/api/v1/request", requestRouter); 
 
   app.all("*", (req, res, next) => {
     next(new AppError("Endpoint was not found", 404));

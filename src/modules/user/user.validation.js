@@ -4,6 +4,7 @@ const addUserValidation = Joi.object({
   name: Joi.string().required().trim(),
   email: Joi.string().required().trim(),
   password: Joi.string().required(),
+  isActive: Joi.boolean().default(true),
   role: Joi.string().valid("admin", "user", "seller").optional(), // Allow role field
   addresses: Joi.array().items(
     Joi.object({
