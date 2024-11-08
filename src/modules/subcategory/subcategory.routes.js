@@ -14,7 +14,7 @@ subCategoryRouter
   .route("/addSubCategory")
   .post(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin"),
     validate(addSubCategoryValidation),
     subCategory.addSubCategory
   )
@@ -26,7 +26,7 @@ subCategoryRouter
   .route("/updateSubCategory/:id")
   .put(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin",),
     validate(updateSubCategoryValidation),
     subCategory.updateSubCategory
   )
@@ -34,7 +34,7 @@ subCategoryRouter
   .route("/deleteSubCategory/:id")
   .delete(
     protectedRoutes,
-    allowedTo("admin","seller"),
+    allowedTo("admin",),
     validate(deleteSubCategoryValidation),
     subCategory.deleteSubCategory
   );

@@ -13,13 +13,33 @@ const addSubCategory = catchAsyncError(async (req, res, next) => {
   res.status(201).json({ message: "success", addSubcategory });
 });
 
-const getAllSubCategories = catchAsyncError(async (req, res, next) => {
-  console.log(req.params);
-  let filterObj = {};
+// const getAllSubCategories = catchAsyncError(async (req, res, next) => {
+//   console.log(req.params);
+//   let filterObj = {};
 
   
-  if (req.params.category) {
-    filterObj = { category: req.params.category };
+//   if (req.params.category) {
+//     filterObj = { category: req.params.category };
+//   }
+
+//   const apiFeature = new ApiFeatures(
+//     subCategoryModel.find(filterObj),
+//     req.query
+//   ).filteration();
+
+//   // Execute the query
+//   const getAllSubCategories = await apiFeature.mongooseQuery;
+
+//   res.status(201).json({ message: "success", getAllSubCategories });
+// });
+const getAllSubCategories = catchAsyncError(async (req, res, next) => {
+  console.log(req.params);
+
+  let filterObj = {};
+
+  // Check if categoryId is provided in the route parameters
+  if (req.params.categoryId) {
+    filterObj = { category: req.params.categoryId }; // Adjusted to use categoryId
   }
 
   const apiFeature = new ApiFeatures(
@@ -32,6 +52,7 @@ const getAllSubCategories = catchAsyncError(async (req, res, next) => {
 
   res.status(201).json({ message: "success", getAllSubCategories });
 });
+
 
 const updateSubCategory = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
