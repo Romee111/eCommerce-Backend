@@ -83,52 +83,67 @@ function calcTotalPrice(cart) {
 //   res.status(201).json({ message: "success", result: isCartExist });
 // });
 const addProductToCart = catchAsyncError(async (req, res, next) => {
-  let productId = req.body.cartItem.productId;
+  let productId = req.body.cartItem[0].productId;
 
+  // Convert productId to ObjectId
   try {
-    productId = mongoose.Types.ObjectId(req.body.productId); // Convert to ObjectId
+    productId = new mongoose.Types.ObjectId(productId); // Convert to ObjectId
   } catch (err) {
     return next(new AppError("Invalid Product ID format", 400));
   }
 
+  // Fetch product price
   let product = await productModel.findById(productId).select("price");
-
   if (!product) {
     return next(new AppError("Product was not found", 404));
   }
 
-  req.body.price = product.price;
+  req.body.cartItem[0].price = product.price; // Set price directly in cartItem array
 
+  // Check if cart exists for the user
   let isCartExist = await cartModel.findOne({ userId: req.user._id });
-
   if (!isCartExist) {
     let result = new cartModel({
       userId: req.user._id,
-      cartItem: [req.body],
+      cartItem: [{
+        productId: productId,
+        quantity: req.body.cartItem[0].quantity,
+        price: req.body.cartItem[0].price,
+        totalProductDiscount: req.body.cartItem[0].totalProductDiscount
+      }]
     });
     calcTotalPrice(result);
     await result.save();
     return res.status(201).json({ message: "success", result });
   }
 
-  let item = isCartExist.cartItem.find((element) => element.productId.toString() === req.body.productId);
+  // Check if product is already in cart
+  let item = isCartExist.cartItem.find(
+    (element) => element.productId === productId.toString()
+  );
 
   if (item) {
-    item.quantity += req.body.quantity || 1;
+    item.quantity += req.body.cartItem[0].quantity || 1;
   } else {
-    isCartExist.cartItem.push(req.body);
+    isCartExist.cartItem.push({
+      productId: productId,
+      quantity: req.body.cartItem[0].quantity,
+      price: req.body.cartItem[0].price,
+      totalProductDiscount: req.body.cartItem[0].totalProductDiscount
+    });
   }
 
   calcTotalPrice(isCartExist);
 
   if (isCartExist.discount) {
-    isCartExist.totalPriceAfterDiscount = isCartExist.totalPrice - (isCartExist.totalPrice * isCartExist.discount) / 100;
+    isCartExist.totalPriceAfterDiscount =
+      isCartExist.totalPrice - (isCartExist.totalPrice * isCartExist.discount) / 100;
   }
 
   await isCartExist.save();
-
   res.status(201).json({ message: "success", result: isCartExist });
 });
+
 
 // Remove product from cart
 const removeProductFromCart = catchAsyncError(async (req, res, next) => {
