@@ -14,3 +14,4 @@ export let catchAsyncError = (fn) => {
     });
   };
 };
+

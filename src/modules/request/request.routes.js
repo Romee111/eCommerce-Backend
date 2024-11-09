@@ -15,6 +15,14 @@ requestRouter
 
     )
 
+    requestRouter
+    .route("/pendingRequests")
+    .get(
+        protectedRoutes,
+        allowedTo("admin"),
+        request.pendingRequests
+    )
+
 requestRouter
     .route("/respondToRequest/:id")
     .put(

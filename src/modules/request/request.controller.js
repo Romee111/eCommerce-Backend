@@ -64,3 +64,13 @@ export const respondToRequest = async (req, res, next) => {
     next(error);
   }
 };
+
+export const pendingRequests = async (req, res, next) => {
+  try {
+    const requests = await Request.find({ status: 'pending' }).populate('sellerId');
+    res.status(200).json({ message: "Success", requests });
+  } catch (error) {
+    next(error);
+  }
+};
+

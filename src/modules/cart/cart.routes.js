@@ -7,7 +7,7 @@ import * as cart from "../cart/cart.controller.js"
 const cartRouter = express.Router();
 
 cartRouter
-  .route("/")
+  .route("/addProductToCart")
   .post(
     protectedRoutes,
     allowedTo("user"),
@@ -26,14 +26,17 @@ cartRouter
   )
 
 cartRouter
-  .route("/:id")
+  .route("/removeProductFromCart/:id")
   .delete(
     protectedRoutes,
     allowedTo("user"),
     cart.removeProductFromCart
   )
+
+cartRouter
+  .route("/updateProductQuantity/:id")
   .put(
-    protectedRoutes,
+   protectedRoutes,
     allowedTo("user"),
     cart.updateProductQuantity
   );
