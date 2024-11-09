@@ -83,7 +83,7 @@ function calcTotalPrice(cart) {
 //   res.status(201).json({ message: "success", result: isCartExist });
 // });
 const addProductToCart = catchAsyncError(async (req, res, next) => {
-  let productId = req.body.productId;
+  let productId = req.body.cartItem.productId;
 
   try {
     productId = mongoose.Types.ObjectId(req.body.productId); // Convert to ObjectId
