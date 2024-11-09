@@ -5,12 +5,14 @@ import { cartModel } from "../../../Database/models/cart.model.js";
 import { productModel } from "../../../Database/models/product.model.js";
 import { orderModel } from "../../../Database/models/order.model.js";
 import  userModel  from "../../../Database/models/user.model.js";
+// import axios from "axios";
 
 const KLARNA_API_URL = "https://api.playground.klarna.com/checkout/v3/orders";
 const KLARNA_API_KEY = "sk_test_26PHem9AhJZvU623DfE1x4sd";
 
 // Helper function to create a Klarna order
-const createKlarnaOrder = async (cart, user, shippingAddress) => {
+const createKlarnaOrder = async (req,res) => {
+  const { cart, user, shippingAddress } = req.body;
   const orderPayload = {
     purchase_country: "US",
     purchase_currency: "USD",
@@ -143,6 +145,22 @@ const getAllOrders = catchAsyncError(async (req, res, next) => {
   const orders = await orderModel.find({}).populate("cartItems.productId");
   res.status(200).json({ message: "success", orders });
 });
+
+
+
+// export const createKlarnaOrderService = async (orderPayload) => {
+//   try {
+//     const response = await axios.post(KLARNA_API_URL, orderPayload, {
+//       auth: {
+//         username: KLARNA_API_KEY,
+//         password: "", // Password is typically not needed with API key-based auth
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw new Error(`Klarna API error: ${error.response?.data?.message || error.message}`);
+//   }
+// };
 
 // Export functions
 export {
