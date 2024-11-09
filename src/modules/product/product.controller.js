@@ -1,5 +1,5 @@
 import slugify from "slugify";
-
+import { BASE_URL } from "../../../multer/multerConfiq.js";
 import { catchAsyncError } from "../../utils/catchAsyncError.js";
 import { AppError } from "../../utils/AppError.js";
 import { deleteOne } from "../../handlers/factor.js";
@@ -24,17 +24,36 @@ import { ApiFeatures } from "../../utils/ApiFeatures.js";
 //     next(error);  // Pass the error to the global error handler
 //   }
 // });
-const addProduct = catchAsyncError(async (req, res, next) => {
-  req.body.slug = slugify(req.body.title);
-  const addProduct = new productModel(req.body);
+// const addProduct = catchAsyncError(async (req, res, next) => {
+//   req.body.slug = slugify(req.body.title);
+//   const addProduct = new productModel(req.body);
 
-  // Add this check to prevent errors
-  await addProduct.save();
+//   // Add this check to prevent errors
+//   await addProduct.save();
 
-  // Send response
-  res.status(201).json({ message: "success", addProduct });
-});
+//   // Send response
+//   res.status(201).json({ message: "success", addProduct });
+// });
+const addProduct = async (req, res, next) => {
+  try {
+    req.body.slug = slugify(req.body.title);
 
+    // Set the imgCover path if it exists
+    if (req.file) {
+      req.body.imgCover = `${BASE_URL}/uploads/products/${req.file.filename}`;
+    }
+
+    // Set the images paths if they exist
+    if (req.files && req.files.images) {
+      req.body.images = req.files.images.map(file => `${BASE_URL}/uploads/products/${file.filename}`);
+    }
+
+    const newProduct = await productModel.create(req.body);
+    res.status(201).json({ message: "Product added successfully", product: newProduct });
+  } catch (error) {
+    next(error);
+  }
+};
 
 const getAllProducts = catchAsyncError(async (req, res, next) => {
   let apiFeature = new ApiFeatures(productModel.find(), req.query)

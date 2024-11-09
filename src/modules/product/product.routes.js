@@ -7,7 +7,7 @@ import {
   getSpecificProductValidation,
   updateProductValidation,
 } from "./product.validation.js";
-import { uploadMultipleFiles } from "../../../multer/multer.js";
+import { uploadMultipleFiles, uploadSingleFile } from "../../../multer/multer.js";
 import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
 
 const productRouter = express.Router();
@@ -22,7 +22,9 @@ productRouter
   .post(
     protectedRoutes,
     allowedTo( "seller","admin"),
-    uploadMultipleFiles(arrFields, "products"),
+    uploadSingleFile('imgCover', 'products'), // Single file for cover image
+    uploadMultipleFiles([{ name: 'images', maxCount: 5 }], 'products'), 
+    // uploadMultipleFiles(arrFields, "products"),
     validate(addProductValidation),
     product.
     addProduct
